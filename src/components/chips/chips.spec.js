@@ -4,6 +4,8 @@ describe('<md-chips>', function() {
       '<md-chips ng-model="items"></md-chips>';
   var CHIP_APPEND_TEMPLATE =
       '<md-chips ng-model="items" md-on-append="appendChip($chip)"></md-chips>';
+  var CHIP_SELECT_TEMPLATE =
+    '<md-chips ng-model="items" md-on-select="selectChip($chip)"></md-chips>';
 
   beforeEach(module('material.components.chips', 'material.components.autocomplete'));
   beforeEach(inject(function ($rootScope) {
@@ -130,6 +132,21 @@ describe('<md-chips>', function() {
       expect(scope.items[3].name).toBe('Grape');
       expect(scope.items[3].uppername).toBe('GRAPE');
     });
+  });
+
+  it('should call the select method when selecting a chip', function() {
+    var element = buildChips(CHIP_SELECT_TEMPLATE);
+    var ctrl = element.controller('mdChips');
+
+    scope.selectChip = jasmine.createSpy('selectChip');
+
+    element.scope().$apply(function() {
+      ctrl.items = ['Grape'];
+      ctrl.selectChip(0);
+    });
+
+    expect(scope.selectChip).toHaveBeenCalled();
+    expect(scope.selectChip.calls.mostRecent().args[0]).toBe('Grape');
   });
 
   describe('custom inputs', function() {

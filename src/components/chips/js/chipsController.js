@@ -72,6 +72,13 @@ function MdChipsCtrl ($scope, $mdConstant, $log, $element, $timeout) {
    * @type {boolean}
    */
   this.useMdOnAppend = false;
+
+  /**
+   * Whether to use the mdOnSelect expression to notify the component's user
+   * after selecting a chip from the list.
+   * @type {boolean}
+   */
+  this.useMdOnSelect = false;
 }
 
 /**
@@ -200,6 +207,17 @@ MdChipsCtrl.prototype.useMdOnAppendExpression = function() {
 };
 
 /**
+ * Sets whether to use the md-on-select expression. This expression is
+ * bound to scope and controller in {@code MdChipsDirective} as
+ * {@code mdOnSelect}. Due to the nature of directive scope bindings, the
+ * controller cannot know on its own/from the scope whether an expression was
+ * actually provided.
+ */
+MdChipsCtrl.prototype.useMdOnSelectExpression = function() {
+  this.useMdOnSelect = true;
+};
+
+/**
  * Gets the input buffer. The input buffer can be the model bound to the
  * default input item {@code this.chipBuffer}, the {@code selectedItem}
  * model of an {@code md-autocomplete}, or, through some magic, the model
@@ -265,6 +283,11 @@ MdChipsCtrl.prototype.selectAndFocusChipSafe = function(index) {
 MdChipsCtrl.prototype.selectChip = function(index) {
   if (index >= -1 && index <= this.items.length) {
     this.selectedChip = index;
+
+    // Fire the mdOnSelect if provided
+    if (this.useMdOnSelect && this.mdOnSelect) {
+      this.mdOnSelect({'$chip': this.items[this.selectedChip] });
+    }
   } else {
     this.$log.warn('Selected Chip index out of bounds; ignoring.');
   }
