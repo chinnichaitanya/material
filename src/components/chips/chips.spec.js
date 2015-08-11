@@ -1,14 +1,21 @@
 describe('<md-chips>', function() {
-  var scope;
+  var scope, $timeout, $exceptionHandler;
+
   var BASIC_CHIP_TEMPLATE =
       '<md-chips ng-model="items"></md-chips>';
   var CHIP_APPEND_TEMPLATE =
       '<md-chips ng-model="items" md-on-append="appendChip($chip)"></md-chips>';
+  var CHIP_READONLY_AUTOCOMPLETE_TEMPLATE =
+      '<md-chips ng-model="items" readonly="true">' +
+      '  <md-autocomplete md-items="item in [\'hi\', \'ho\', \'he\']"></md-autocomplete>' +
+      '</md-chips>';
 
   beforeEach(module('material.components.chips', 'material.components.autocomplete'));
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope, _$timeout_, _$exceptionHandler_) {
     scope = $rootScope.$new();
     scope.items = ['Apple', 'Banana', 'Orange'];
+    $timeout = _$timeout_;
+    $exceptionHandler = _$exceptionHandler_;
   }));
 
   describe('basic functionality', function () {
@@ -129,6 +136,18 @@ describe('<md-chips>', function() {
       expect(scope.items.length).toBe(4);
       expect(scope.items[3].name).toBe('Grape');
       expect(scope.items[3].uppername).toBe('GRAPE');
+    });
+
+    iit('should allow readonly without errors', function() {
+      var element = buildChips(CHIP_READONLY_AUTOCOMPLETE_TEMPLATE);
+      var ctrl = element.controller('mdChips');
+
+      console.log(' *** TEST element: ', element.html());
+
+      $timeout.flush();
+
+      expect(ctrl.readonly).toBe(true);
+      expect($exceptionHandler.errors).toEqual([]);
     });
   });
 

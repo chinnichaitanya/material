@@ -10,6 +10,8 @@ function MdChipTransclude ($compile, $mdUtil) {
     scope: false
   };
   function link (scope, element, attr) {
+    debugger;
+    console.log(' *** firing transclude start: ');
     var ctrl = scope.$parent.$mdChipsCtrl,
         newScope = ctrl.parent.$new(false, ctrl.parent);
     newScope.$$replacedScope = scope;
@@ -17,5 +19,6 @@ function MdChipTransclude ($compile, $mdUtil) {
     newScope.$mdChipsCtrl = ctrl;
     element.html(ctrl.$scope.$eval(attr.mdChipTransclude));
     $compile(element.contents())(newScope);
+    console.log(' *** firing transclude: ', element.contents());
   }
 }
