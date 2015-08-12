@@ -225,6 +225,7 @@ function MdChips($mdTheming, $mdUtil, $compile, $log, $timeout) {
      * Configures controller and transcludes.
      */
     return function postLink(scope, element, attrs, controllers) {
+      console.log(' *** chipsDirective scope: ', scope);
 
       $mdUtil.initOptionalProperties(scope, attr);
 
@@ -253,20 +254,21 @@ function MdChips($mdTheming, $mdUtil, $compile, $log, $timeout) {
         if (chipInputTemplate != CHIP_INPUT_TEMPLATE) {
           console.log(' *** chipInputTemplate 1: ', chipInputTemplate);
 
-          $timeout(function() {
-            console.log(' *** controller items: ', mdChipsCtrl.items);
-            console.log(' *** chipInputTemplate 2: ', chipInputTemplate);
-            console.log(' *** CODE element: ', element.parent().html());
-            console.log(' *** CODE autocomplete: ', element.find('md-autocomplete'));
-            console.log(' *** CODE controller: ', element.find('md-autocomplete')
-              .controller('mdAutocomplete'));
+          mdChipsCtrl.chipTransclude();
 
-            if (chipInputTemplate.indexOf('<md-autocomplete') === 0)
-              mdChipsCtrl
-                .configureAutocomplete(element.find('md-autocomplete')
-                  .controller('mdAutocomplete'));
-            mdChipsCtrl.configureUserInput(element.find('input'));
-          });
+          console.log(' *** controller items: ', mdChipsCtrl.items);
+          console.log(' *** chipInputTemplate 2: ', chipInputTemplate);
+          console.log(' *** CODE element: ', element.parent().html());
+          console.log(' *** CODE autocomplete: ', element.find('md-autocomplete'));
+          console.log(' *** CODE controller: ', element.find('md-autocomplete')
+            .controller('mdAutocomplete'));
+
+          if (chipInputTemplate.indexOf('<md-autocomplete') === 0)
+            mdChipsCtrl
+              .configureAutocomplete(element.find('md-autocomplete')
+                .controller('mdAutocomplete'));
+
+          mdChipsCtrl.configureUserInput(element.find('input'));
         }
       }
 

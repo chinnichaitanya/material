@@ -3,18 +3,14 @@
   <md-content class="md-padding" layout="column">
     <h2 class="md-title">Display a set of items as chips.</h2>
 
-    <!--
     <md-chips>
       <md-chip>Hockey</md-chip>
       <md-chip>Lacrosse</md-chip>
       <md-chip>Baseball</md-chip>
-      -->
 
       <!-- Static chips are transcluded -->
-    <!--
       <md-chip>{{ctrl.chipText}}</md-chip>
     </md-chips>
-    -->
 
     <md-chips ng-model="items" readonly="true">
       <md-autocomplete md-items="item in ['hi', 'ho', 'he']">

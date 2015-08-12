@@ -343,6 +343,7 @@ MdChipsCtrl.prototype.configureUserInput = function(inputElement) {
 };
 
 MdChipsCtrl.prototype.configureAutocomplete = function(ctrl) {
+  console.log(' *** configuring autocomplete: ', ctrl);
 
   ctrl.registerSelectedItemWatcher(angular.bind(this, function (item) {
     if (item) {
